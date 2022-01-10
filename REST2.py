@@ -15,8 +15,8 @@ def run_md(pdbname, scale, loop=0):
 	For this purpose, we record the information of the first structure as the tamplate.
 	"""
 	global num_sol, box_size, num_Na, num_Cl
-	print('echo -e "1\n1\n" | gmx pdb2gmx -f %s -o processed.gro -ignh	> grompp.log 2>&1' % pdbname)
-	os.system('echo -e "1\n1\n" | gmx pdb2gmx -f %s -o processed.gro -ignh	> grompp.log 2>&1' % pdbname)
+	print('echo -e "1\n1\n" | gmx pdb2gmx -f {} -o processed.gro -ignh	> grompp.log 2>&1'.format(pdbname))
+	os.system('echo -e "1\n1\n" | gmx pdb2gmx -f {} -o processed.gro -ignh	> grompp.log 2>&1'.format(pdbname))
 
 	if loop == 0:
 		print('gmx editconf -f processed.gro -o newbox.gro -d 1 -c -bt dodecahedron')
@@ -126,11 +126,11 @@ if __name__ == '__main__':
 	num_Na, num_Cl = None, None
 	ccc=''
 	for i,t in enumerate(temp):
-		pp_dir="replica%d" %i
-		pdbname='replica%d.pdb' %i
+		pp_dir='replica{}'.format(i)
+		pdbname='replica{}.pdb'.format(i)
 		pathlib.Path(pp_dir).mkdir(parents=True, exist_ok=True)
 		os.chdir(pp_dir)
-		os.system('cp ../%s ./' %pdbname )
+		os.system('cp ../{} ./'.format(pdbname))
 		os.system('cp ../*.mdp ./' )
 		os.system('cp -r ../charmm36.ff ./')
 		os.system('cp ../plumed.dat ./' )
